@@ -1,0 +1,71 @@
+body {
+  padding: 1em;
+}
+
+div.navbar {
+}
+
+.sidebar-nav {
+  padding: 9px 0;
+}
+
+.container-fluid {
+  padding: 0;
+}
+
+.navbar .nav .open > .dropdown-toggle, .navbar .nav .active > .dropdown-toggle, .navbar .nav .open.active > .dropdown-toggle {
+	background-color: hsl(208, 100%, 40%);
+}
+
+.nav > .btn-group {
+	float: right;
+}
+
+footer {
+	margin: .2em 1em;
+}
+
+footer a {
+	border-top: 1px solid #888;
+	padding: 1em;
+}
+
+ul.nav li {
+    color: #FFF;
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+#searchForm {
+    margin-top: 12px;
+    width: 100px;
+}
+
+a#title {
+    font-size: 2.8em;
+    font-weight: bold;
+}
+
+ul#movies {
+    margin: 0em;
+    margin-top: 2em;
+}
+
+ul#movies li {
+    margin: 0;
+    padding: 0;
+}
+
+ul#movies img {
+    width: 120px;
+    height: 170px;
+}
+
+div.box {
+    width: 4em;
+    height: 4em;
+    background: #22150e;
+    color: white;
+    font-size: 4em;
+}
+

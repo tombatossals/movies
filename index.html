@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Peliculas Castalia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="David Rubert">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  </head>
+
+  <body>
+
+  <div class="navbar navbar-static">
+    <div class="navbar-inner">
+        <div class="container">
+            <a id="title" class="brand" href="#">Movies</a>
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                    <li id="search">
+                        <form id="searchForm" class="navbar-search" action="">
+                            <input class="typeahead" type="text" class="search-query" data-provide="typeahead" placeholder="Buscar una pelicula">
+                        </form>
+                    </li>
+                    <li>
+      	                <div class="btn-toolbar">
+        	                <div class="btn-group" data-toggle="buttons-radio">
+          	                    <button id="limpio" class="btn">Limpio</button>
+          	                    <button class="btn">Sideways</button>
+        	                </div>
+      	                </div>
+	                </li>
+                </ul>
+            </div>
+        </div>
+    </div><!--/.nav-collapse -->
+  </div>
+
+  <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span1">
+            <div class="tabbable tabs-left">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#1" data-toggle="tab">A</a></li>
+                    <li><a href="#A" data-toggle="tab">B</a></li>
+                    <li><a href="#B" data-toggle="tab">C</a></li>
+                    <li><a href="#C" data-toggle="tab">D</a></li>
+                    <li><a href="#1" data-toggle="tab">E</a></li>
+                    <li><a href="#1" data-toggle="tab">F</a></li>
+                    <li><a href="#1" data-toggle="tab">G</a></li>
+                    <li><a href="#1" data-toggle="tab">G</a></li>
+                    <li><a href="#1" data-toggle="tab">H</a></li>
+                    <li><a href="#1" data-toggle="tab">I</a></li>
+                    <li><a href="#1" data-toggle="tab">J</a></li>
+                    <li><a href="#1" data-toggle="tab">K</a></li>
+                    <li><a href="#1" data-toggle="tab">L</a></li>
+                    <li><a href="#1" data-toggle="tab">M</a></li>
+                    <li><a href="#1" data-toggle="tab">N</a></li>
+                    <li><a href="#1" data-toggle="tab">O</a></li>
+                    <li><a href="#1" data-toggle="tab">P</a></li>
+                    <li><a href="#1" data-toggle="tab">Q</a></li>
+                    <li><a href="#1" data-toggle="tab">R</a></li>
+                    <li><a href="#1" data-toggle="tab">S</a></li>
+                    <li><a href="#1" data-toggle="tab">T</a></li>
+                    <li><a href="#1" data-toggle="tab">U</a></li>
+                    <li><a href="#1" data-toggle="tab">V</a></li>
+                    <li><a href="#1" data-toggle="tab">W</a></li>
+                    <li><a href="#1" data-toggle="tab">X</a></li>
+                    <li><a href="#1" data-toggle="tab">Y</a></li>
+                    <li><a href="#1" data-toggle="tab">Z</a></li>
+                </ul>
+            </div>
+          </div>
+          <div class="span11 tab-content">
+              <ul class="thumbnails" id="movies"></ul>
+          </div>
+      </div><!--/row-->
+  </div><!--/.fluid-container-->
+
+  <script data-main="js/main" src="js/libs/require/require.js"></script>
+  </body>
+</html>
