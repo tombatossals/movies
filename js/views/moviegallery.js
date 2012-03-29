@@ -14,6 +14,14 @@ define([
         },
         render: function() {
       		$(this.el).html(this.template({ movies: this.collection.toJSON()}));
+
+            $("ul#movies > li > a[rel=popover]").popover();
+            $("ul#movies > li > a").hover(function() {
+                $(this).popover('show');
+            }, function() {
+                $(this).popover('hide');
+            });
+
         	return this;
     	}
   });

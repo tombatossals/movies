@@ -26,7 +26,9 @@ require([
   'router',
   'depend!libs/bootstrap/bootstrap-dropdown[order!jquery]',
   'depend!libs/bootstrap/bootstrap-typeahead[order!jquery]',
-  'depend!libs/bootstrap/bootstrap-button[order!jquery]'
+  'depend!libs/bootstrap/bootstrap-button[order!jquery]',
+  'depend!libs/bootstrap/bootstrap-tooltip[order!jquery]',
+  'depend!libs/bootstrap/bootstrap-popover[order!jquery]'
 ], function(AppRouter){
   var router = new AppRouter();
   $("#limpio").button('toggle')
