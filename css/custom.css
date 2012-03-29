@@ -38,7 +38,6 @@ ul.nav li {
 
 #searchForm {
     margin-top: 12px;
-    width: 100px;
 }
 
 a#title {
@@ -46,26 +45,10 @@ a#title {
     font-weight: bold;
 }
 
-ul#movies {
-    margin: 0em;
-    margin-top: 2em;
+#movies {
+    margin-left: 2em;
 }
 
-ul#movies li {
-    margin: 0;
-    padding: 0;
+#movies img {
+    max-height: 222px;
 }
-
-ul#movies img {
-    width: 120px;
-    height: 170px;
-}
-
-div.box {
-    width: 4em;
-    height: 4em;
-    background: #22150e;
-    color: white;
-    font-size: 4em;
-}
-

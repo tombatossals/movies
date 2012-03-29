@@ -28,20 +28,19 @@
 
   <div class="navbar navbar-static">
     <div class="navbar-inner">
-        <div class="container">
+        <div class="container-fluid">
             <a id="title" class="brand" href="#">Movies</a>
             <div class="nav-collapse">
-                <ul class="nav pull-right">
-                    <li id="search">
-                        <form id="searchForm" class="navbar-search" action="">
-                            <input class="typeahead" type="text" class="search-query" data-provide="typeahead" placeholder="Buscar una pelicula">
-                        </form>
-                    </li>
+                <form id="searchForm" class="navbar-search pull-right" action="">
+                </form>
+                <ul class="nav pull-right span4">
                     <li>
       	                <div class="btn-toolbar">
         	                <div class="btn-group" data-toggle="buttons-radio">
-          	                    <button id="limpio" class="btn">Limpio</button>
-          	                    <button class="btn">Sideways</button>
+          	                    <button id="limpio" class="btn">Letra</button>
+          	                    <button id="limpio" class="btn">Genero</button>
+          	                    <button class="btn">Anyo</button>
+          	                    <button class="btn">Ultimas descargadas</button>
         	                </div>
       	                </div>
 	                </li>
@@ -53,38 +52,7 @@
 
   <div class="container-fluid">
       <div class="row-fluid">
-          <div class="span1">
-            <div class="tabbable tabs-left">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#1" data-toggle="tab">A</a></li>
-                    <li><a href="#A" data-toggle="tab">B</a></li>
-                    <li><a href="#B" data-toggle="tab">C</a></li>
-                    <li><a href="#C" data-toggle="tab">D</a></li>
-                    <li><a href="#1" data-toggle="tab">E</a></li>
-                    <li><a href="#1" data-toggle="tab">F</a></li>
-                    <li><a href="#1" data-toggle="tab">G</a></li>
-                    <li><a href="#1" data-toggle="tab">G</a></li>
-                    <li><a href="#1" data-toggle="tab">H</a></li>
-                    <li><a href="#1" data-toggle="tab">I</a></li>
-                    <li><a href="#1" data-toggle="tab">J</a></li>
-                    <li><a href="#1" data-toggle="tab">K</a></li>
-                    <li><a href="#1" data-toggle="tab">L</a></li>
-                    <li><a href="#1" data-toggle="tab">M</a></li>
-                    <li><a href="#1" data-toggle="tab">N</a></li>
-                    <li><a href="#1" data-toggle="tab">O</a></li>
-                    <li><a href="#1" data-toggle="tab">P</a></li>
-                    <li><a href="#1" data-toggle="tab">Q</a></li>
-                    <li><a href="#1" data-toggle="tab">R</a></li>
-                    <li><a href="#1" data-toggle="tab">S</a></li>
-                    <li><a href="#1" data-toggle="tab">T</a></li>
-                    <li><a href="#1" data-toggle="tab">U</a></li>
-                    <li><a href="#1" data-toggle="tab">V</a></li>
-                    <li><a href="#1" data-toggle="tab">W</a></li>
-                    <li><a href="#1" data-toggle="tab">X</a></li>
-                    <li><a href="#1" data-toggle="tab">Y</a></li>
-                    <li><a href="#1" data-toggle="tab">Z</a></li>
-                </ul>
-            </div>
+          <div id="left-panel" class="span1">
           </div>
           <div class="span11 tab-content">
               <ul class="thumbnails" id="movies"></ul>
