@@ -12,8 +12,6 @@ define([
                         url: null
                 }
         },
-	initialize: function() {
-	},
   });
   return Movie;
 });

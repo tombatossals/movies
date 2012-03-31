@@ -7,8 +7,6 @@ require.config({
     jquery: 'libs/jquery/jquery-min',
     underscore: 'libs/underscore/underscore-min', // https://github.com/amdjs
     backbone: 'libs/backbone/backbone-min', // https://github.com/amdjs
-    sinon: 'libs/sinon/sinon.js',
-    depend: 'libs/require/depend',
 
     // Require.js plugins
     text: 'libs/require/text',
@@ -24,11 +22,8 @@ require.config({
 // Let's kick off the application
 require([
   'router',
-  'depend!libs/bootstrap/bootstrap-dropdown[order!jquery]',
-  'depend!libs/bootstrap/bootstrap-typeahead[order!jquery]',
-  'depend!libs/bootstrap/bootstrap-button[order!jquery]',
-  'depend!libs/bootstrap/bootstrap-tooltip[order!jquery]',
-  'depend!libs/bootstrap/bootstrap-popover[order!jquery]'
+  'order!jquery',
+  'order!libs/bootstrap/bootstrap-button'
 ], function(AppRouter){
   var router = new AppRouter();
   $("#limpio").button('toggle')

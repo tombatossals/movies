@@ -1,10 +1,16 @@
 #!/usr/bin/python
 import os
 import json
+from pymongo import Connection
 
 DIRS=[ "/volume4/video/movies_kids" ]
 
 movies = list()
+
+connection = Connection()
+db = connection.movies
+
+db.movies.remove()
 
 for dir in DIRS:
     for root, dirs, files in os.walk(dir):
@@ -23,5 +29,6 @@ for dir in DIRS:
                 movie["nfo"] = "%s/%s.nfo" % ( root, name )
 
             movies.append(movie)
+            db.movies.save(movie)
 
-print(json.dumps(movies))
+#print(json.dumps(movies))

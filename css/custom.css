@@ -50,5 +50,26 @@ a#title {
 }
 
 #movies img {
-    max-height: 222px;
+    max-height: 210px;
+}
+
+#alphabetic li > a {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.showmovie {
+    width: 780px;
+    margin-left: -390px;
+    height: 570px;
+    min-height: 570px;
+    margin-top: -285px;
+}
+
+.showmovie .modal-body img {
+    height: 415px;
+}
+
+.thumbnails {
+    text-align: left;
 }

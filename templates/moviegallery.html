@@ -1,3 +1,11 @@
 <% _.each(movies, function(movie) { %> 
-<li class="span2"><a class="thumbnail" rel="popover" title="<%= movie.name %>" href="#"><img src="<%= movie.tbn %>" /></a></li>
+<li class="span2">
+  <a class="thumbnail" rel="popover" title="<%= movie.name %>" href="#show/movie/<%= movie.id %>">
+    <% if (movie.tbn) { %>
+      <img src="<%= movie.tbn %>" />
+    <% } else { %>
+      <img src="img/blank.jpg" />
+    <% } %>
+  </a>
+</li>
 <% }); %>
