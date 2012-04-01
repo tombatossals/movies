@@ -24,7 +24,6 @@ define([
 
         close: function(event) {
         	$(this.el).modal("hide");
-            window.history.back();
             return false;
     	}
 

@@ -13,7 +13,7 @@ define([
           return model.get('name');
         },
 
-        search : function(letters){
+        searchByLetter : function(letters){
             if (letters == "") return this;
 
             if (letters === "0-9") {

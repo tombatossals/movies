@@ -5,36 +5,36 @@ define([
   'backbone',
   'collections/movies',
   'views/search',
-  'views/panel',
+  'views/panel_letters',
   'views/moviegallery',
   'views/showmovie',
   'order!jquery',
   'order!libs/bootstrap/bootstrap-typeahead'
-], function ($, _, Backbone, ListaMovies, SearchView, PanelView, MovieGalleryView, ShowMovieView) {
+], function ($, _, Backbone, ListaMovies, SearchView, PanelLettersView, MovieGalleryView, ShowMovieView) {
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Pages
       //
       // Default - catch all
-      'search/:letters': 'search',
-      'show/movie/:movie': 'show',
+      'letters/:letters': 'searchByLetter',
       '*actions': 'defaultAction'
     },
 
     initialize: function(options) {
-        _.bindAll( this, "search");
+        _.bindAll( this, "searchByLetter", "show");
         this.movies = new ListaMovies();
         this.movies.fetch({ success: function() {
             Backbone.history.start();
         } });
         this.searchView = new SearchView( { el: "#searchForm", collection: this.movies } );
         this.showMovieView = new ShowMovieView( { el: "#movie" } );
-        this.panelView = new PanelView( { el: "#panel", collection: this.movies } );
+        this.panelLettersView = new PanelLettersView( { el: "#panel", collection: this.movies } );
         this.movieGalleryView = new MovieGalleryView( { el: "#movies", collection: this.movies } );
         this.movies.on("reset", this.movieGalleryView.render);
         this.movies.on("reset", this.searchView.render);
-        this.movies.on("reset", this.panelView.render);
-        this.searchView.on("filter", this.search);
+        this.movies.on("reset", this.panelLettersView.render);
+        this.searchView.on("filterByLetter", this.searchByLetter);
+        this.movieGalleryView.on("showmovie", this.show);
     },
 
     show: function(movieId) {
@@ -43,17 +43,14 @@ define([
         this.showMovieView.render();
     },
 
-    search: function(letters) {
-        if (letters === "all") {
-            this.movieGalleryView.collection = this.movies;
-            this.movieGalleryView.render();
-        } else {
-            var filteredCollection = new ListaMovies(this.movies.search(letters));
-            this.movieGalleryView.showFiltered(filteredCollection);
-        }
+    searchByLetter: function(letters) {
+        var filteredCollection = new ListaMovies(this.movies.searchByLetter(letters));
+        this.movieGalleryView.showFiltered(filteredCollection);
     },
 
     defaultAction: function(event) {
+        this.movieGalleryView.collection = this.movies;
+        this.movieGalleryView.render();
     }
 
   });

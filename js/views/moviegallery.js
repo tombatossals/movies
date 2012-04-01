@@ -13,6 +13,10 @@ define([
         className: "gallery",
   	    template: _.template(templateMovieGallery),
 
+        events: {
+            "click #movies a.thumbnail": "showmovie"
+        },
+
         initialize: function() {
             _.bindAll(this, "render");
         },
@@ -33,6 +37,13 @@ define([
         showFiltered: function(collection) {
             this.collection = collection;
             this.render();
+        },
+
+        showmovie: function(ev) {
+            var id = $(ev.target).parent("a").attr("href").replace("#", "");
+            var movie = this.collection.get(id);
+            this.trigger("showmovie", movie);
+            return false;
         }
   });
 
