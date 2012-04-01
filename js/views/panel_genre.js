@@ -2,17 +2,17 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!templates/panel_letters.html'
-], function($, _, Backbone, templatePanelLetters) {
+  'text!templates/panel_genre.html'
+], function($, _, Backbone, templatePanelGenre) {
 
-  var PanelLettersView = Backbone.View.extend({
+  var PanelGenreView = Backbone.View.extend({
     	tagName: "div",
-        className: "panel-letters",
+        className: "panel-genre",
         events: {
   		    "click #alphabetic li": "setActive"
         },
 
-        template: _.template(templatePanelLetters),
+        template: _.template(templatePanelGenre),
 
   	    initialize: function(options) {
 		    _.bindAll( this, "render", "setActive" );
@@ -36,5 +36,5 @@ define([
 
   });
 
-  return PanelLettersView;
+  return PanelGenreView;
 });

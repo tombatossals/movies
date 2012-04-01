@@ -26,5 +26,5 @@ require([
   'order!libs/bootstrap/bootstrap-button'
 ], function(AppRouter){
   var router = new AppRouter();
-  $("#limpio").button('toggle')
+  $("#letters").button('toggle')
 });

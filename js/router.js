@@ -6,11 +6,14 @@ define([
   'collections/movies',
   'views/search',
   'views/panel_letters',
+  'views/panel_genre',
   'views/moviegallery',
+  'views/filters',
   'views/showmovie',
   'order!jquery',
-  'order!libs/bootstrap/bootstrap-typeahead'
-], function ($, _, Backbone, ListaMovies, SearchView, PanelLettersView, MovieGalleryView, ShowMovieView) {
+  'order!libs/bootstrap/bootstrap-typeahead',
+  'order!libs/bootstrap/bootstrap-button'
+], function ($, _, Backbone, ListaMovies, SearchView, PanelLettersView, PanelGenreView, MovieGalleryView, FiltersView, ShowMovieView) {
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Pages
@@ -21,20 +24,32 @@ define([
     },
 
     initialize: function(options) {
-        _.bindAll( this, "searchByLetter", "show");
+        _.bindAll( this, "searchByLetter", "show", "showFilter");
         this.movies = new ListaMovies();
         this.movies.fetch({ success: function() {
             Backbone.history.start();
         } });
         this.searchView = new SearchView( { el: "#searchForm", collection: this.movies } );
         this.showMovieView = new ShowMovieView( { el: "#movie" } );
-        this.panelLettersView = new PanelLettersView( { el: "#panel", collection: this.movies } );
+        this.filtersView = new FiltersView( { el: "#filters " } );
+        this.filtersView.render();
+        this.panelView = new PanelLettersView( { el: "#panel", collection: this.movies } );
+        this.panelView.render();
         this.movieGalleryView = new MovieGalleryView( { el: "#movies", collection: this.movies } );
         this.movies.on("reset", this.movieGalleryView.render);
         this.movies.on("reset", this.searchView.render);
-        this.movies.on("reset", this.panelLettersView.render);
         this.searchView.on("filterByLetter", this.searchByLetter);
         this.movieGalleryView.on("showmovie", this.show);
+        this.filtersView.on("filter", this.showFilter);
+    },
+
+    showFilter: function(filter) {
+        if ( filter === "genre" ) {
+            this.panelView = new PanelGenreView( { el: "#panel", collection: this.movies } );
+        } else if ( filter == "letters" ) {
+            this.panelView = new PanelLettersView( { el: "#panel", collection: this.movies } );
+        }
+        this.panelView.render();
     },
 
     show: function(movieId) {
