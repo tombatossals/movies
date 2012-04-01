@@ -7,6 +7,9 @@ define([
                 return {
 			            id: null,
                         name: null,
+                        title: null,
+                        genre: null,
+                        year: null,
                         date: null,
                         thumb: null,
                         url: null

@@ -2,21 +2,21 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!templates/panel_genre.html'
-], function($, _, Backbone, templatePanelGenre) {
+  'text!templates/panel_year.html'
+], function($, _, Backbone, templatePanelYear) {
 
-  var PanelGenreView = Backbone.View.extend({
+  var PanelYearView = Backbone.View.extend({
     	tagName: "div",
         className: "panel-genre",
         events: {
-  		    "click #genre li": "setActive"
+  		    "click #year li": "setActive"
         },
 
-        template: _.template(templatePanelGenre),
+        template: _.template(templatePanelYear),
 
   	    initialize: function(options) {
 		    _.bindAll( this, "render", "setActive" );
-            this.genres = options.genres;
+            this.years = options.years;
 	    },	
 
         setActive: function(e) {
@@ -27,10 +27,10 @@ define([
         },
 
         render: function() {
-            $(this.el).html(this.template({ genres: this.genres }));
+            $(this.el).html(this.template({ years: this.years }));
 	    },
 
   });
 
-  return PanelGenreView;
+  return PanelYearView;
 });
