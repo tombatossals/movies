@@ -21,10 +21,7 @@ require.config({
 
 // Let's kick off the application
 require([
-  'router',
-  'order!jquery',
-  'order!libs/bootstrap/bootstrap-button'
+  'router'
 ], function(AppRouter){
   var router = new AppRouter();
-  $("#letters").button('toggle')
 });

@@ -4,7 +4,7 @@ import json
 from pymongo import Connection
 from xml.sax import make_parser, handler
 
-DIRS=[ "/volume4/video/movies_kids" ]
+DIRS=[ "/volume4/video/movies_kids", "/volume4/video/movies_gold" ]
 
 movies = list()
 
@@ -28,12 +28,7 @@ class NfoParser(handler.ContentHandler):
 
     def characters(self, content):
         if self._actual:
-            if self._data.get(self._actual):
-                if not type(self._data[self._actual]) == type(list()):
-                    self._data[self._actual] = [ self._data[self._actual] ]
-                self._data[self._actual].append(content)
-            else:
-                self._data[self._actual] = content
+            self._data[self._actual] = content
 
     def endElement(self, name):
         self._actual = None
@@ -46,23 +41,25 @@ for dir in DIRS:
         movie = dict()
         name = os.path.basename(root)
         url = root.replace("/volume4/video", "movies")
-        if "%s.avi" % name in files or "%s.mkv" % name in files:
+        if [ a for a in files if a[-4:] == ".avi" ]:
             movie["name"] = name
-            movie["date-added"] = "2012-03-11"
+            movie["dateadded"] = "2012-03-11"
 
-            if "%s.avi" % name in files:
-                movie["url"] = "%s/%s.avi" % ( url, name )
-            if "%s.tbn" % name in files:
-                movie["tbn"] = "%s/%s.tbn" % ( url, name )
-            if "%s-fanart.jpg" % name in files:
-                movie["fanart"] = "%s/%s-fanart.jpg" % ( url, name )
-            if "%s.nfo" % name in files:
-                movie["nfo"] = "%s/%s.nfo" % ( url, name )
+            if [ a for a in files if a[-4:] == ".avi" ]:
+                movie["url"] = "%s/%s" % (url, [ a for a in files if a[-4:] == ".avi" ][0])
+
+            if [ a for a in files if a[-4:] == ".tbn" ]:
+                movie["tbn"] = "%s/%s" % (url, [ a for a in files if a[-4:] == ".tbn" ][0])
+                print(movie["tbn"]);
+            if [ a for a in files if a[-4:] == ".jpg" ]:
+                movie["fanart"] = "%s/%s" % (url, [ a for a in files if a[-4:] == ".jpg" ][0])
+            if [ a for a in files if a[-4:] == ".nfo" ]:
+                movie["nfo"] = "%s/%s" % (url, [ a for a in files if a[-4:] == ".nfo" ][0])
 
                 parser = make_parser()
                 nfoParser = NfoParser()
                 parser.setContentHandler(nfoParser)
-                filename = "%s/%s.nfo" % (root, name)
+                filename = "%s/%s" % (root, [ a for a in files if a[-4:] == ".nfo" ][0])
                 parser.parse(open(filename, encoding="utf-8"))
                 for item, value in nfoParser._data.items():
                     movie[item] = value

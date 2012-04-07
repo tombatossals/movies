@@ -2,39 +2,37 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!templates/panel_letters.html'
-], function($, _, Backbone, templatePanelLetters) {
+  'text!templates/panel.html'
+], function($, _, Backbone, templatePanel) {
 
-  var PanelLettersView = Backbone.View.extend({
+  var PanelView = Backbone.View.extend({
     	tagName: "div",
-        className: "panel-letters",
+        className: "panel",
         events: {
   		    "click #alphabetic li": "setActive"
         },
 
-        template: _.template(templatePanelLetters),
+        template: _.template(templatePanel),
 
   	    initialize: function(options) {
 		    _.bindAll( this, "render", "setActive" );
+            this.filter = options.filter;
+            this.items = options.items;
+            this.render();
 	    },	
 
         setActive: function(e) {
+            this.collection.fetch();
             $(e.currentTarget).parent("ul").children("li").each(function() {
                 $(this).removeClass("active");
             });
             $(e.currentTarget).addClass("active");
         },
-
-        reset: function() {
-        },
-
         render: function() {
-            $(this.el).html(this.template());
-		    this.source = this.collection.pluck("name");
-		    $(".typeahead").typeahead( { source: this.source } );
-	    },
+            $(this.el).html(this.template({ filter: this.filter, items: this.items }));
+        },
 
   });
 
-  return PanelLettersView;
+  return PanelView;
 });

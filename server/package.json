@@ -1,11 +1,12 @@
 {
-  "name": "trunks-server",
+  "name": "movies-server",
   "preferGlobal": "false",
   "version": "0.0.1",
   "author": "David Rubert <david.rubert@gmail.com>",
-  "description": "REST interface to the Mongo DB squema of data",
+  "description": "REST interface to the Mongo DB squema of data of the movies db",
   "dependencies" : {
-    "mongodb-rest"   :  "*",
+    "express"   :  "*",
+    "mongoose"   :  "*",
     "forever"   :  "*"
   },
   "license": "MIT",

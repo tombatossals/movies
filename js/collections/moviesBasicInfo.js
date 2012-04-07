@@ -5,9 +5,9 @@ define([
   'models/movie'
 ], function($, _, Backbone, Movie){
 
-  var ListaMovies = Backbone.Collection.extend({
+  var ListaMoviesBasicInfo = Backbone.Collection.extend({
         model: Movie,
-        url: '/movies/movies',
+        url: '/api/movies/?fields=title,genre,year',
 
         comparator: function(model) {
           return model.get('name');
@@ -21,11 +21,12 @@ define([
 
         searchByGenre: function(genre){
             return this.filter(function(data) {
-                if (typeof(data.get("genre")) === "object") {
-                    return _.include(data.get("genre"), genre);
-                } else {
-                    return false;
+                var g = data.get("genre");
+                if (g) {
+                    var genres = g.split(" / ");
+                    return _.include(genres, genre);
                 }
+                return false;
             });
         },
 
@@ -41,5 +42,5 @@ define([
         }
   });
 
-  return ListaMovies;
+  return ListaMoviesBasicInfo;
 });

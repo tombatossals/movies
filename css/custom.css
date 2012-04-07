@@ -73,3 +73,7 @@ a#title {
 .thumbnails {
     text-align: left;
 }
+
+div.navbar {
+    margin-bottom: 0;
+}

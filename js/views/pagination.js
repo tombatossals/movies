@@ -2,18 +2,19 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!templates/search.html',
+  'text!templates/pagination.html',
   'order!jquery',
   'order!libs/bootstrap/bootstrap-typeahead'
-], function($, _, Backbone, templateSearch) {
+], function($, _, Backbone, templatePagination) {
 
-  var SearchView = Backbone.View.extend({
+  var PaginationView = Backbone.View.extend({
     	tagName: "div",
-        className: "search",
+        className: "pagination",
         events: {
-  		    "change .typeahead": "filtered",
+            'click a.servernext': 'nextResultPage',
+            'click a.serverprevious': 'previousResultPage',
 	    },
-        template: _.template(templateSearch),
+        template: _.template(templatePagination),
   	    initialize: function(options) {
 		    _.bindAll( this, "render", "filtered" );
             this.collection.on("reset", this.render);
@@ -22,12 +23,6 @@ define([
         render: function() {
             $(this.el).html(this.template());
 		    this.source = this.collection.pluck("title");
-            this.source.sort();
-            this.source = this.source.filter(function(e) {
-                if (e !== null) {
-                    return true;
-                }
-            });
 		    $(".typeahead").typeahead( { source: this.source } );
 	    },
 
@@ -36,8 +31,19 @@ define([
 		    if (_.include(this.source, movie)) {
                 	this.trigger("filterByLetter", movie);
 		    }
-	    }
+	    },
+        nextResultPage: function (e) {
+            e.preventDefault();
+            this.collection.requestNextPage();
+        },
+
+        previousResultPage: function (e) {
+            e.preventDefault();
+            this.collection.requestPreviousPage();
+        },
+
+
   });
 
-  return SearchView;
+  return PaginationView;
 });

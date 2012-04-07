@@ -3,45 +3,45 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'collections/movies',
+  'collections/moviesBasicInfo',
+  'collections/moviesPaginated',
   'views/search',
-  'views/panel_letters',
-  'views/panel_genre',
-  'views/panel_year',
+  'views/pagination',
+  'views/panel',
   'views/moviegallery',
   'views/filters',
   'views/showmovie',
   'order!jquery',
   'order!libs/bootstrap/bootstrap-typeahead',
   'order!libs/bootstrap/bootstrap-button'
-], function ($, _, Backbone, ListaMovies, SearchView, PanelLettersView, PanelGenreView, PanelYearView, MovieGalleryView, FiltersView, ShowMovieView) {
+], function ($, _, Backbone, ListaMoviesBasicInfo, ListaMoviesPaginated, SearchView, PaginationView, PanelView, MovieGalleryView, FiltersView, ShowMovieView) {
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Pages
       //
       // Default - catch all
-      'letters/:letters': 'searchByLetter',
-      'year/:year': 'searchByYear',
-      'genre/:genre': 'searchByGenre',
+      ':cat/:letters': 'filter',
       '*actions': 'defaultAction'
     },
 
     initialize: function(options) {
-        _.bindAll( this, "searchByLetter", "show", "showFilter");
-        this.movies = new ListaMovies();
-        this.movies.fetch({ success: function() {
+        _.bindAll( this, "show", "showFilter");
+
+        this.moviesBasicInfo = new ListaMoviesBasicInfo();
+        this.moviesPaginated = new ListaMoviesPaginated();
+
+        this.moviesBasicInfo.fetch();
+        this.moviesPaginated.fetch({ success: function() {
             Backbone.history.start();
         } });
-        this.searchView = new SearchView( { el: "#searchForm", collection: this.movies } );
+
+        this.panelView = new PanelView ( { filter: "letters", items: [ "0-9", "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z" ] });
+        this.searchView = new SearchView( { el: "#searchForm", collection: this.moviesBasicInfo } );
+        this.paginationView = new PaginationView( { el: "#pagination", collection: this.moviesPaginated } );
         this.showMovieView = new ShowMovieView( { el: "#movie" } );
-        this.filtersView = new FiltersView( { el: "#filters " } );
-        this.filtersView.render();
-        this.panelView = new PanelLettersView( { el: "#panel", collection: this.movies } );
-        this.panelView.render();
-        this.movieGalleryView = new MovieGalleryView( { el: "#movies", collection: this.movies } );
-        this.movies.on("reset", this.movieGalleryView.render);
-        this.movies.on("reset", this.searchView.render);
-        this.searchView.on("filterByLetter", this.searchByLetter);
+        this.filtersView = new FiltersView( { el: "#filters" } );
+        this.movieGalleryView = new MovieGalleryView( { el: "#movies", collection: this.moviesPaginated } );
+        this.searchView.on("filterByLetter", this.filter);
         this.movieGalleryView.on("showmovie", this.show);
         this.filtersView.on("filter", this.showFilter);
     },
@@ -64,48 +64,49 @@ define([
 
         if ( filter === "genre" ) {
             var genres = [];
-            this.movies.each(function(movie) {
+            this.moviesBasicInfo.each(function(movie) {
                 var genre = movie.get("genre");
-                if (typeof(genre) === "object") {
-                    genres = genres.concat(genre);
+                if (genre) {
+                    var a = movie.get("genre").split(" / ");
+                    genres = genres.concat(a);
                 }
             });
             var genres = eliminateDuplicates(genres);
-            this.panelView = new PanelGenreView( { el: "#panel", collection: this.movies, genres: genres } );
+            this.panelView.filter = "genre";
+            this.items = genres;
         } else if ( filter == "letters" ) {
-            this.panelView = new PanelLettersView( { el: "#panel", collection: this.movies } );
+            this.panelView = new PanelLettersView( { el: "#panel", collection: this.moviesPaginated } );
         } else if ( filter == "year" ) {
-            var years = eliminateDuplicates(this.movies.pluck("year"));
+            var years = eliminateDuplicates(this.moviesBasicInfo.pluck("year"));
+            years = years.filter(function(e) {
+                if (e !== "null") {
+                    return true;
+                }
+            });
+
             years.reverse();
-            this.panelView = new PanelYearView( { el: "#panel", collection: this.movies, years: years } );
+            this.panelView.filter = "year";
+            this.panelView.items = years;
         }
-        this.panelView.render();
+    },
+
+    filter: function(category, filter) {
+        if (category === "letters") {
+            this.moviesPaginated.query = { title: "/" + filter + "/" };
+            this.moviesPaginated.fetch();
+        }
     },
 
     show: function(movieId) {
-        var movie = this.movies.get(movieId);
+        var movie = this.moviesPaginated.get(movieId);
         this.showMovieView.model = movie;
         this.showMovieView.render();
     },
 
-    searchByGenre: function(genre) {
-        var filteredCollection = new ListaMovies(this.movies.searchByGenre(genre));
-        this.movieGalleryView.showFiltered(filteredCollection);
-    },
-
-    searchByYear: function(year) {
-        var filteredCollection = new ListaMovies(this.movies.searchByYear(year));
-        this.movieGalleryView.showFiltered(filteredCollection);
-    },
-
-    searchByLetter: function(letters) {
-        var filteredCollection = new ListaMovies(this.movies.searchByLetter(letters));
-        this.movieGalleryView.showFiltered(filteredCollection);
-    },
-
     defaultAction: function(event) {
-        this.movieGalleryView.collection = this.movies;
-        this.movieGalleryView.render();
+        $("#letters").button('toggle');
+        //this.showFilter("letters");
+        this.moviesPaginated.fetch();
     }
 
   });

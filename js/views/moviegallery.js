@@ -3,6 +3,7 @@ define([
   'underscore',
   'backbone',
   'text!templates/moviegallery.html',
+  'order!libs/backbone/backbone.paginator',
   'order!jquery',
   'order!libs/bootstrap/bootstrap-tooltip',
   'order!libs/bootstrap/bootstrap-popover'
@@ -19,12 +20,22 @@ define([
 
         initialize: function() {
             _.bindAll(this, "render");
+            this.collection.on("reset", this.render);
+        },
+
+        get_popover_placement: function(pop, dom_el) {
+            var width = window.innerWidth;
+            if (width<500) return 'bottom';
+            var left_pos = $(dom_el).offset().left;
+            if (width - left_pos > 500) return 'right';
+            return 'left';
         },
 
         render: function() {
+            console.log("recarga");
+            console.log(this.collection);
       		$(this.el).html(this.template({ movies: this.collection.toJSON()}));
-
-            $("ul#movies > li > a[rel=popover]").popover();
+            $("ul#movies > li > a[rel=popover]").popover({ placement: this.get_popover_placement });
             $("ul#movies > li > a").hover(function() {
                 $(this).popover('show');
             }, function() {
