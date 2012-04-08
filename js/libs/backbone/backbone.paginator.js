@@ -218,11 +218,13 @@ Backbone.Paginator = (function ( Backbone, _, $ ) {
 			var queryMap = {}, params;
 				queryMap[this.perPageAttribute] =  this.perPage;
 				queryMap[this.skipAttribute] = this.page * this.perPage;
-				queryMap[this.orderAttribute] =  this.sortField;
-				queryMap[this.customAttribute1] =  this.customParam1;
+                if (this.sortField) {
+				    queryMap[this.orderAttribute] =  this.sortField;
+                }
 				queryMap[this.formatAttribute] =  this.format;
-				queryMap[this.customAttribute2] = this.customParam2;
-				queryMap[this.queryAttribute] =  this.query;
+                if (this.query) {
+				    queryMap[this.queryAttribute] =  this.query;
+                }
 
 				params = _.extend({
 				    type: 'GET',

@@ -34,7 +34,7 @@ define([
   	    filtered: function() {
 		    var movie = $(".typeahead").val();
 		    if (_.include(this.source, movie)) {
-                	this.trigger("filterByLetter", movie);
+                	this.trigger("filter", "letters", movie);
 		    }
 	    }
   });

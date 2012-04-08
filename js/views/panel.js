@@ -8,25 +8,26 @@ define([
   var PanelView = Backbone.View.extend({
     	tagName: "div",
         className: "panel",
-        events: {
-  		    "click #alphabetic li": "setActive"
-        },
-
         template: _.template(templatePanel),
 
   	    initialize: function(options) {
 		    _.bindAll( this, "render", "setActive" );
             this.filter = options.filter;
             this.items = options.items;
-            this.render();
 	    },	
 
+        hide: function() {
+            $(this.el).html("");
+        },
+
         setActive: function(e) {
-            this.collection.fetch();
-            $(e.currentTarget).parent("ul").children("li").each(function() {
+            var query = "";
+            $(this.el).children("ul").children("li").each(function() {
                 $(this).removeClass("active");
+                if ($(this).children("a").html() === e) {
+                    $(this).addClass("active");
+                }
             });
-            $(e.currentTarget).addClass("active");
         },
         render: function() {
             $(this.el).html(this.template({ filter: this.filter, items: this.items }));

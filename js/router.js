@@ -25,44 +25,54 @@ define([
     },
 
     initialize: function(options) {
-        _.bindAll( this, "show", "showFilter");
+        _.bindAll( this, "show", "filter");
 
         this.moviesBasicInfo = new ListaMoviesBasicInfo();
         this.moviesPaginated = new ListaMoviesPaginated();
 
-        this.moviesBasicInfo.fetch();
-        this.moviesPaginated.fetch({ success: function() {
+        this.moviesBasicInfo.fetch({ success: function() {
             Backbone.history.start();
         } });
 
-        this.panelView = new PanelView ( { filter: "letters", items: [ "0-9", "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z" ] });
+        this.panelView = new PanelView ( { el: "#panel", collection: this.moviesPaginated, filter: "", items: "" } );
         this.searchView = new SearchView( { el: "#searchForm", collection: this.moviesBasicInfo } );
         this.paginationView = new PaginationView( { el: "#pagination", collection: this.moviesPaginated } );
         this.showMovieView = new ShowMovieView( { el: "#movie" } );
         this.filtersView = new FiltersView( { el: "#filters" } );
         this.movieGalleryView = new MovieGalleryView( { el: "#movies", collection: this.moviesPaginated } );
-        this.searchView.on("filterByLetter", this.filter);
+        this.searchView.on("filter", this.filter);
         this.movieGalleryView.on("showmovie", this.show);
-        this.filtersView.on("filter", this.showFilter);
+        this.panelView.on("filter", this.filter);
+        this.filtersView.on("filter", this.filter);
     },
 
-    showFilter: function(filter) {
-        function eliminateDuplicates(arr) {
-            var i,
-                len=arr.length,
-                out=[],
-                obj={};
+    eliminateDuplicates: function(arr) {
+        var i,
+            len=arr.length,
+            out=[],
+            obj={};
 
-            for (i=0;i<len;i++) {
-                obj[arr[i]]=0;
-            }
-            for (i in obj) {
-                out.push(i);
-            }
-            return out;
+        for (i=0;i<len;i++) {
+            obj[arr[i]]=0;
         }
+        for (i in obj) {
+            out.push(i);
+        }
+        return out;
+    },
 
-        if ( filter === "genre" ) {
+    filter: function(category, filter) {
+        $("#" + category).button('toggle');
+        this.panelView.filter = category;
+
+        if (category === "letters") {
+            this.panelView.items = [ "0-9", "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z" ];
+            this.panelView.render();
+            if (!filter) {
+                filter = "A";
+            }
+            this.moviesPaginated.query = encodeURIComponent('{ "title": "' + filter + '" }');
+        } else if (category === "genre") {
             var genres = [];
             this.moviesBasicInfo.each(function(movie) {
                 var genre = movie.get("genre");
@@ -71,29 +81,38 @@ define([
                     genres = genres.concat(a);
                 }
             });
-            var genres = eliminateDuplicates(genres);
-            this.panelView.filter = "genre";
-            this.items = genres;
-        } else if ( filter == "letters" ) {
-            this.panelView = new PanelLettersView( { el: "#panel", collection: this.moviesPaginated } );
-        } else if ( filter == "year" ) {
-            var years = eliminateDuplicates(this.moviesBasicInfo.pluck("year"));
+            var genres = this.eliminateDuplicates(genres);
+            this.panelView.items = genres;
+            this.panelView.render();
+            if (!filter) {
+                filter = genres[0];
+            }
+            this.moviesPaginated.query = encodeURIComponent('{ "genre": "' + filter + '" }');
+        } else if (category === "year") {
+            var years = this.eliminateDuplicates(this.moviesBasicInfo.pluck("year"));
             years = years.filter(function(e) {
                 if (e !== "null") {
                     return true;
                 }
             });
-
             years.reverse();
-            this.panelView.filter = "year";
             this.panelView.items = years;
+            this.panelView.render();
+            if (!filter) {
+                filter = years[0];
+            }
+            this.moviesPaginated.query = encodeURIComponent('{ "year": "' + filter + '" }');
+        } else {
+            this.moviesPaginated.query = "";
         }
-    },
 
-    filter: function(category, filter) {
-        if (category === "letters") {
-            this.moviesPaginated.query = { title: "/" + filter + "/" };
-            this.moviesPaginated.fetch();
+        this.panelView.setActive(filter);
+        this.moviesPaginated.fetch();
+
+        if (category !== "latest") {
+            this.navigate(this.panelView.filter + "/" + filter);
+        } else {
+            this.navigate(this.panelView.filter);
         }
     },
 
@@ -104,8 +123,9 @@ define([
     },
 
     defaultAction: function(event) {
-        $("#letters").button('toggle');
-        //this.showFilter("letters");
+        $("#latest").button('toggle');
+        this.panelView.hide();
+        this.moviesPaginated.query = "";
         this.moviesPaginated.fetch();
     }
 

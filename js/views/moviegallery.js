@@ -32,8 +32,6 @@ define([
         },
 
         render: function() {
-            console.log("recarga");
-            console.log(this.collection);
       		$(this.el).html(this.template({ movies: this.collection.toJSON()}));
             $("ul#movies > li > a[rel=popover]").popover({ placement: this.get_popover_placement });
             $("ul#movies > li > a").hover(function() {

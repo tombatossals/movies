@@ -13,7 +13,6 @@ define([
         perPageAttribute: 'limit',
         skipAttribute: 'skip',
         sortAttribute: 'sort',
-        orderAttribute: 'orderBy',
         formatAttribute: 'format',
         displayPerPage: 10,
         page: 0,
@@ -21,7 +20,6 @@ define([
         perPage: 10,
         sortDirection: 'asc',
         format: 'json',
-        sortField: 'title'
   });
 
   return ListaMoviesPaginated;

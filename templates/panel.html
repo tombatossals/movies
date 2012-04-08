@@ -1,17 +1,12 @@
-<div id="<%= filter %>" class="tabbable tabs-right">
-    <ul class="nav nav-tabs">
-        <% if (filter === "letters") { %>
-        <% _.each(items, function(letter) { %>
-        <li class="active"><a href="#" data-toggle="tab">Todas</a></li>
-        <li><a href="#letters/%= letter %>" data-toggle="tab"><%= letter %></a></li>
-        <% }); } else if (filter === "genre") { %>
-        <li class="active"><a href="#" data-toggle="tab">Todas</a></li>
-        <% _.each(items, function(genre) { %>
-        <li><a href="#genre/<%= genre %>" data-toggle="tab"><%= genre %></a></li>
-        <% }); } else if (filter === "year") { %>
-        <li class="active"><a href="#" data-toggle="tab">Todas</a></li>
-        <% _.each(items, function(year) { %>
-        <li><a href="#year/<%= year %>" data-toggle="tab"><%= year %></a></li>
-        <% }); } %>
-    </ul>
-</div>
+<ul class="nav nav-tabs">
+    <% if (filter == "letters") { %>
+    <% _.each(items, function(letter) { %>
+    <li><a href="#letters/<%= letter %>" data-toggle="tab"><%= letter %></a></li>
+    <% }); } else if (filter === "genre") { %>
+    <% _.each(items, function(genre) { %>
+    <li><a href="#genre/<%= genre %>" data-toggle="tab"><%= genre %></a></li>
+    <% }); } else if (filter === "year") { %>
+    <% _.each(items, function(year) { %>
+    <li><a href="#year/<%= year %>" data-toggle="tab"><%= year %></a></li>
+    <% }); } %>
+</ul>

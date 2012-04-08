@@ -53,17 +53,31 @@ var Movie = new Schema({
 var MovieModel = mongoose.model('Movie', Movie);  
 
 app.get('/api/movies', function (req, res){
-  var query = req.query.query || {};
-  var fields = {}; 
-  if (req.query.fields) {
-      var f = req.query.fields.split(",");
-      for (var i in f) {
-        fields[f[i]] = 1;
-      }
+  var query = MovieModel.find();
+
+  var where = req.query.query || {};
+
+  if (typeof where === "string") {
+    where = JSON.parse(where);
   }
+  for (w in where) {
+    var r = new RegExp("^" + where[w], "i");
+    query.where(w, r);
+  }
+  
+  var fields = []; 
+  if (req.query.fields) {
+      fields = req.query.fields.split(",");
+  }
+  query.fields(fields);
+
   var skip = req.query.skip || 0;
+  query.skip(skip);
+
   var limit = req.query.limit || 0; 
-  return MovieModel.find(query, fields, { skip: skip, limit: limit }, function (err, movies) {
+  query.limit(limit);
+
+  return query.exec(function (err, movies) {
     if (!err) {
       return res.send(movies);
     } else {
